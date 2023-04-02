@@ -1,6 +1,7 @@
 package com.aces.bird.ranking.service.impl;
 
 import com.aces.bird.ranking.model.dto.RankingDto;
+import com.aces.bird.ranking.model.dto.UserDto;
 import com.aces.bird.ranking.model.entity.Score;
 import com.aces.bird.ranking.model.entity.User;
 import com.aces.bird.ranking.repository.ScoreRepository;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class RankingServiceImpl implements RankingService {
@@ -66,10 +68,17 @@ public class RankingServiceImpl implements RankingService {
         }
 
         // Get ranking
-        List<User> rankingUsers = userRepository.getRanking();
+        List<UserDto> rankingUsers = userRepository.getRanking();
 
         // Get user's rank
-        int userRank = rankingUsers.indexOf(user) + 1;
+        int userRank = 0;
+        for (int i = 0; i < rankingUsers.size(); i++) {
+            UserDto rankingUser = rankingUsers.get(i);
+            if (Objects.equals(rankingUser.getUserId(), user.getUserId())) {
+                userRank = i + 1;
+                break;
+            }
+        }
 
         return new RankingDto(user.getUserId(), userRank);
     }
