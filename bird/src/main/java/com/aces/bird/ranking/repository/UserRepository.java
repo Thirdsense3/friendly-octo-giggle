@@ -1,5 +1,6 @@
 package com.aces.bird.ranking.repository;
 
+import com.aces.bird.ranking.model.dto.UserDto;
 import com.aces.bird.ranking.model.entity.Score;
 import com.aces.bird.ranking.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +18,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     List<Score> findAllByUserId(String userId);
 
-    List<User> getRanking();
+    List<UserDto> getRanking();
 
 }
